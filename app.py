@@ -65,10 +65,14 @@ database_url = os.getenv(
     "postgresql+psycopg2://u0_a262@localhost/business_db",
 )
 
-# Support database URLs supplied by common hosting providers.
+# Support PostgreSQL URLs from hosting providers.
 if database_url.startswith("postgres://"):
     database_url = database_url.replace(
-        "postgres://", "postgresql://", 1
+        "postgres://", "postgresql+psycopg2://", 1
+    )
+elif database_url.startswith("postgresql://"):
+    database_url = database_url.replace(
+        "postgresql://", "postgresql+psycopg2://", 1
     )
 
 app.config["SQLALCHEMY_DATABASE_URI"] = database_url
