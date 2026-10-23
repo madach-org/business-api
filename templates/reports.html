@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sales Reports - Business Management System</title>
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<header>
+    <h1>Sales Reports</h1>
+    <p>Review sales for a selected period.</p>
+</header>
+
+<nav>
+    <a href="{{ url_for('dashboard') }}">Dashboard</a> |
+    <a href="{{ url_for('sales_reports') }}">Sales Reports</a> |
+    <a href="{{ url_for('get_customers') }}">Customers API</a> |
+    <a href="{{ url_for('get_products') }}">Products API</a>
+</nav>
+
+<main>
+    <section>
+        <h2>Filter Sales by Date</h2>
+        <p>Choose either date or both dates. Leave both blank to report all sales.</p>
+
+        {% if error %}
+        <p class="message error" role="alert">{{ error }}</p>
+        {% endif %}
+
+        <form action="{{ url_for('sales_reports') }}"
+              method="get" class="report-filter">
+            <label for="start-date">Start date</label>
+            <input type="date" id="start-date" name="start_date"
+                   value="{{ start_date_value }}">
+
+            <label for="end-date">End date</label>
+            <input type="date" id="end-date" name="end_date"
+                   value="{{ end_date_value }}">
+
+            <div class="report-actions">
+                <button type="submit">Filter Report</button>
+                <a class="report-link"
+                   href="{{ url_for('sales_reports') }}">Clear Dates</a>
+            </div>
+        </form>
+    </section>
+
+    {% if summary %}
+    <section>
+        <h2>Sales Summary</h2>
+        <p>
+            Period:
+            <strong>{{ summary.start_date or "All time" }}</strong>
+            to
+            <strong>{{ summary.end_date or "All time" }}</strong>
+        </p>
+        <p class="report-note">
+            Estimated values use current product prices, not necessarily
+            prices at the time of sale.
+        </p>
+
+        <div class="summary-cards">
+            <div class="summary-card">
+                <h4>Total Sales</h4>
+                <p class="summary-number">{{ summary.total_sales }}</p>
+            </div>
+            <div class="summary-card">
+                <h4>Units Sold</h4>
+                <p class="summary-number">{{ summary.units_sold }}</p>
+            </div>
+            <div class="summary-card">
+                <h4>Estimated Sales Value</h4>
+                <p class="summary-number">
+                    ₦{{ "{:,.2f}".format(summary.estimated_sales_value) }}
+                </p>
+            </div>
+        </div>
+
+        <div class="report-download">
+            <a class="report-link"
+               href="{{ url_for(
+                   'sales_export',
+                   start_date=start_date_value or None,
+                   end_date=end_date_value or None
+               ) }}">Download CSV Report</a>
+        </div>
+
+        <h3>Top Products by Units Sold</h3>
+        {% if summary.top_products %}
+        <div class="report-table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Product</th>
+                        <th>Units Sold</th>
+                        <th>Estimated Value (₦)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in summary.top_products %}
+                    <tr>
+                        <td>{{ item.product }}</td>
+                        <td>{{ item.units_sold }}</td>
+                        <td>₦{{ "{:,.2f}".format(item.estimated_value) }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <p>No sales found for this period.</p>
+        {% endif %}
+    </section>
+    {% endif %}
+</main>
+
+<footer>
+    <p>Business Management System — Sales Reports</p>
+</footer>
+
+</body>
+</html>

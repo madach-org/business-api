@@ -1,0 +1,43 @@
+.env
+.env.*
+
+# Python generated files
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Virtual environments
+.venv/
+venv/
+
+# Test and coverage artifacts
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Local database and backup files
+*.db
+*.sqlite
+*.sqlite3
+*.sql
+*.dump
+*.bak
+*.backup
+*.day*-backup
+.gitignore.day50-backup
+
+# Local logs
+*.log
+
+# Dated application backups and temporary patch scripts
+app.py.*-backup*
+app.py.*-patch*
+app_day*_backup.py
+apply_day*.py
+repair_day*.py
+secure_day*.py
+day*_patch.py
+
+# Dated backup and patch files anywhere in the project
+*.day*-backup*
+*.day*-patch*

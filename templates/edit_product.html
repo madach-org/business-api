@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Product</title>
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<header>
+    <h1>Edit Product</h1>
+    <p>Update your product information and stock.</p>
+</header>
+
+<nav>
+    <a href="{{ url_for('dashboard') }}">Dashboard</a>
+</nav>
+
+<main>
+    <section>
+        <h2>Update Product</h2>
+
+        <form action="{{ url_for('edit_product', product_id=product.id) }}"
+              method="post">
+
+            <input type="hidden"
+                   name="csrf_token"
+                   value="{{ csrf_token() }}">
+
+            <label for="name">Product name *</label>
+            <input
+                type="text"
+                id="name"
+                name="name"
+                value="{{ product.name }}"
+                required
+                minlength="2"
+                maxlength="100">
+
+            <label for="price">Price (₦) *</label>
+            <input
+                type="number"
+                id="price"
+                name="price"
+                value="{{ product.price }}"
+                required
+                min="0.01"
+                step="0.01">
+
+            <label for="quantity">Stock quantity *</label>
+            <input
+                type="number"
+                id="quantity"
+                name="quantity"
+                value="{{ product.quantity }}"
+                required
+                min="0"
+                step="1">
+
+            <button type="submit">Save Changes</button>
+            <a href="{{ url_for('dashboard') }}">Cancel</a>
+        </form>
+    </section>
+</main>
+
+</body>
+</html>
