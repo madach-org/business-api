@@ -46,7 +46,10 @@ app = Flask(__name__)
 # Session-cookie security settings.
 # SECURE=False is for local HTTP development only.
 app.config["SESSION_COOKIE_HTTPONLY"] = True
-app.config["SESSION_COOKIE_SECURE"] = False
+app.config["SESSION_COOKIE_SECURE"] = (
+    os.getenv("SESSION_COOKIE_SECURE", "false").strip().lower()
+    in {"1", "true", "yes", "on"}
+)
 app.config["SESSION_COOKIE_SAMESITE"] = "Lax"
 
 app.config["SECRET_KEY"] = os.getenv("FLASK_SECRET_KEY")
@@ -57,9 +60,18 @@ if not app.config["SECRET_KEY"]:
         "Add it to your .env file."
     )
 
-app.config["SQLALCHEMY_DATABASE_URI"] = (
-    "postgresql+psycopg2://u0_a262@localhost/business_db"
+database_url = os.getenv(
+    "DATABASE_URL",
+    "postgresql+psycopg2://u0_a262@localhost/business_db",
 )
+
+# Support database URLs supplied by common hosting providers.
+if database_url.startswith("postgres://"):
+    database_url = database_url.replace(
+        "postgres://", "postgresql://", 1
+    )
+
+app.config["SQLALCHEMY_DATABASE_URI"] = database_url
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
 db = SQLAlchemy(app)
