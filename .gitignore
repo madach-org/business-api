@@ -41,3 +41,6 @@ day*_patch.py
 # Dated backup and patch files anywhere in the project
 *.day*-backup*
 *.day*-patch*
+
+# Local Python backup files
+app.py.*backup*
