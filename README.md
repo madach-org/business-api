@@ -174,4 +174,34 @@ Potential improvements include:
 
 ## License
 
-No open-source license has been specified for this project. All rights are reserved unless a license is added to the repository.
+No open-source license has been specified for this project. All rights are reserved unless a license is added to the repository.\n\n## Screenshots
+
+These portfolio screenshots demonstrate the dashboard, customer management, inventory, sales, and reporting features. Customer table details and a recent-sale row are blurred in the portfolio copies.
+
+### Dashboard
+![Dashboard overview](docs/portfolio/screenshots/01-dashboard-overview.png)
+
+![Dashboard summary](docs/portfolio/screenshots/02-dashboard-summary.png)
+
+### Customer management
+![Customer management](docs/portfolio/screenshots/03-customer-management.png)
+
+![Customer search](docs/portfolio/screenshots/04-customer-search.png)
+
+### Product inventory
+![Product inventory](docs/portfolio/screenshots/05-product-inventory.png)
+
+![Product and sale forms](docs/portfolio/screenshots/06-product-and-sale-forms.png)
+
+### Sales
+![Sales recording](docs/portfolio/screenshots/07-sales-recording.png)
+
+### Sales reports
+![Sales report filters](docs/portfolio/screenshots/08-sales-report-filters.png)
+
+![Sales report date range](docs/portfolio/screenshots/09-sales-report-date-range.png)
+
+![Sales report results](docs/portfolio/screenshots/10-sales-report-results.png)
+
+### Authentication
+![Login page](docs/portfolio/screenshots/11-login-page.png)
