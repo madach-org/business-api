@@ -57,16 +57,51 @@ Protected pages and API endpoints require authentication. No public demo account
 
 ```text
 business_api/
-├── app.py
-├── requirements.txt
-├── Procfile
-├── .gitignore
-├── migrations/
-├── templates/
-└── static/
+|-- app.py
+|-- README.md
+|-- requirements.txt
+|-- Procfile
+|-- .gitignore
+|-- migrations/
+|   |-- alembic.ini
+|   |-- env.py
+|   |-- README
+|   `-- versions/
+|-- templates/
+|   |-- index.html
+|   |-- login.html
+|   |-- register.html
+|   |-- edit_customer.html
+|   |-- edit_product.html
+|   `-- reports.html
+|-- static/
+|   `-- style.css
+|-- test_day46.py
+|-- test_day48.py
+|-- test_day49.py
+|-- test_day49_session.py
+`-- docs/
+    `-- portfolio/
+        |-- CASE_STUDY.md
+        |-- CLIENT_DEMO_GUIDE.md
+        |-- INSTALL_INSTRUCTIONS.md
+        |-- PROJECT_SUMMARY.md
+        |-- README_GALLERY_SECTION.md
+        `-- screenshots/
+            |-- 01-dashboard-overview.png
+            |-- 02-dashboard-summary.png
+            |-- 03-customer-management.png
+            |-- 04-customer-search.png
+            |-- 05-product-inventory.png
+            |-- 06-product-and-sale-forms.png
+            |-- 07-sales-recording.png
+            |-- 08-sales-report-filters.png
+            |-- 09-sales-report-date-range.png
+            |-- 10-sales-report-results.png
+            `-- 11-login-page.png
 ```
 
-The application uses Flask routes for web pages and API endpoints, SQLAlchemy for database operations, templates for the dashboard, and static files for styling.
+The application uses Flask routes for web pages and API endpoints, SQLAlchemy for database operations, Jinja templates for the dashboard and forms, and static files for styling.
 
 ## Local Development Setup
 
@@ -114,13 +149,15 @@ FLASK_SECRET_KEY=replace-with-a-long-random-secret
 DATABASE_URL=replace-with-your-local-postgresql-connection-string
 ```
 
-Use your own local database credentials and a securely generated secret. Check "app.py" to confirm the exact environment variable names and database URL format expected by your version of the application.
+Use your own local database credentials and a securely generated secret. Check `app.py` to confirm the exact environment variable names and database URL format expected by your version of the application.
 
-Never commit ".env" files, passwords, or production credentials to Git.
+Never commit `.env` files, passwords, or production credentials to Git.
 
 ### 5. Prepare the database
 
-Create and configure a local PostgreSQL database. Review the project's migration files and existing schema before applying migrations. The migration history depends on the existing database structure, so do not blindly run migrations against the production database.
+Create and configure a local PostgreSQL database.
+
+Review the migration files and the existing database schema before applying migrations. The migration history depends on the existing database structure. Do not blindly apply migrations to the production database.
 
 ### 6. Start the development server
 
@@ -138,15 +175,15 @@ http://127.0.0.1:5000
 
 The application is configured to use Gunicorn as its production server.
 
-The `Procfile` should contain:
+The `Procfile` contains:
 
 ```text
 web: gunicorn app:app
 ```
 
-The deployment uses Render for application hosting and Neon for managed PostgreSQL.
+The application is hosted on Render and uses Neon PostgreSQL for its managed database.
 
-Configure the required environment variables in the hosting provider's dashboard. Use a strong production secret, the correct database connection string, and HTTPS-aware cookie settings in production.
+Configure the required environment variables in the hosting provider's dashboard. Use a strong production secret, the correct database connection string, and appropriate HTTPS-aware cookie settings in production.
 
 Never publish production credentials in this repository or in screenshots.
 
@@ -161,7 +198,9 @@ Development and acceptance testing covered important application behaviours, inc
 - Rejection of zero-quantity sales and overselling.
 - Sales recording, stock updates, and receipts.
 
-Read-only checks against the deployed application also verified key pages and authentication behaviour. Not every workflow was repeated against production because the live database contains real inventory data.
+Read-only checks against the deployed application also verified key pages and authentication behaviour. Not every workflow was repeated against production because the live database contains business data.
+
+**Important testing note:** The existing test scripts use the database configured by the application. They do not automatically create or switch to an isolated test database. Before running them, configure a separate test database and verify the test configuration. Do not run tests against the production database or a database containing records you need to preserve.
 
 ## Future Improvements
 
@@ -174,29 +213,36 @@ Potential improvements include:
 
 ## License
 
-No open-source license has been specified for this project. All rights are reserved unless a license is added to the repository.\n\n## Screenshots
+No open-source license has been specified for this project. All rights are reserved unless a license is added to the repository.
+
+## Screenshots
 
 These portfolio screenshots demonstrate the dashboard, customer management, inventory, sales, and reporting features. Customer table details and a recent-sale row are blurred in the portfolio copies.
 
 ### Dashboard
+
 ![Dashboard overview](docs/portfolio/screenshots/01-dashboard-overview.png)
 
 ![Dashboard summary](docs/portfolio/screenshots/02-dashboard-summary.png)
 
-### Customer management
+### Customer Management
+
 ![Customer management](docs/portfolio/screenshots/03-customer-management.png)
 
 ![Customer search](docs/portfolio/screenshots/04-customer-search.png)
 
-### Product inventory
+### Product Inventory
+
 ![Product inventory](docs/portfolio/screenshots/05-product-inventory.png)
 
 ![Product and sale forms](docs/portfolio/screenshots/06-product-and-sale-forms.png)
 
 ### Sales
+
 ![Sales recording](docs/portfolio/screenshots/07-sales-recording.png)
 
-### Sales reports
+### Sales Reports
+
 ![Sales report filters](docs/portfolio/screenshots/08-sales-report-filters.png)
 
 ![Sales report date range](docs/portfolio/screenshots/09-sales-report-date-range.png)
@@ -204,4 +250,5 @@ These portfolio screenshots demonstrate the dashboard, customer management, inve
 ![Sales report results](docs/portfolio/screenshots/10-sales-report-results.png)
 
 ### Authentication
+
 ![Login page](docs/portfolio/screenshots/11-login-page.png)
